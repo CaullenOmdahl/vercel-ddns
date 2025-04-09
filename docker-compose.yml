@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   ddns-updater:
-    image: ghcr.io/cullenomdahl/casaos-vercel-ddns:latest
+    # Updated image name to match GitHub username exactly (case-sensitive)
+    image: ghcr.io/caullenomdahl/casaos-vercel-ddns:latest
     container_name: casaos-vercel-ddns
     environment:
       - VERCEL_TOKEN=${VERCEL_TOKEN}

@@ -48,3 +48,29 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      
+      # Make package public
+      - name: Make container image public
+        run: |
+          echo "Making container image public..."
+          PACKAGE_NAME="casaos-vercel-ddns"
+          OWNER="${{ github.repository_owner }}"
+          OWNER_LC=$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')
+          
+          # Get the package ID 
+          PACKAGE_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/user/packages/container/$PACKAGE_NAME" \
+            | jq -r '.id')
+          
+          if [ "$PACKAGE_ID" != "null" ]; then
+            # Make the package public
+            curl -X PATCH \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/user/packages/container/$PACKAGE_NAME" \
+              -d '{"visibility":"public"}'
+            echo "Package visibility set to public"
+          else
+            echo "Package not found or API error occurred"
+          fi
