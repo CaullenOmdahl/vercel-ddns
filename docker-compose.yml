@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ddns-updater:
+    build: .
+    container_name: casaos-vercel-ddns
+    environment:
+      - VERCEL_TOKEN=${VERCEL_TOKEN}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - SUBDOMAIN=${SUBDOMAIN}
+    restart: unless-stopped
+    labels:
+      - "casaos.description=Vercel Dynamic DNS Updater for CasaOS"
+      - "casaos.service.name=Vercel DDNS"
+      - "casaos.service.icon=https://avatars.githubusercontent.com/u/14985020?s=200&v=4"
+      - "casaos.author=Forked by Caullen from iam-medvedev"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://api.vercel.com"]
+      interval: 30m
+      timeout: 10s
+      retries: 3
