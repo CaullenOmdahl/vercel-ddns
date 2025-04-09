@@ -36,7 +36,7 @@ If you prefer to run this outside of CasaOS:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/casaos-vercel-ddns.git
+   git clone https://github.com/CaullenOmdahl/casaos-vercel-ddns.git
    cd casaos-vercel-ddns
    ```
 

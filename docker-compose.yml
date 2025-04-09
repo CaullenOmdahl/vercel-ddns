@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ddns-updater:
-    build: .
+    image: ghcr.io/cullenomdahl/casaos-vercel-ddns:latest
     container_name: casaos-vercel-ddns
     environment:
       - VERCEL_TOKEN=${VERCEL_TOKEN}
@@ -14,8 +14,12 @@ services:
       - "casaos.service.name=Vercel DDNS"
       - "casaos.service.icon=https://avatars.githubusercontent.com/u/14985020?s=200&v=4"
       - "casaos.author=Forked by Caullen from iam-medvedev"
+      - "casaos.homepage=https://github.com/CaullenOmdahl/vercel-ddns"
+      - "casaos.category=DNS"
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      - ./logs:/var/log:rw
+      - ./.env:/app/.env:ro
     healthcheck:
       test: ["CMD", "curl", "-f", "https://api.vercel.com"]
       interval: 30m
